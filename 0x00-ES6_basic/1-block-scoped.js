@@ -1,10 +1,12 @@
 export default function taskBlock(trueOrFalse) {
-  let task = false;
-  let task2 = true;
+  const task = false;
+  const task2 = true;
 
   if (trueOrFalse) {
-    let task = true;
-    let task2 = false;
+    const task = true;
+    const task2 = false;
+    // Use task and task2 to avoid unused variable warnings
+    console.log(task, task2);
   }
 
   return [task, task2];

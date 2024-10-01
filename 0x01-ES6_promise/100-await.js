@@ -1,20 +1,14 @@
-import uploadPhoto from './5-photo-reject'; // Adjust the import according to your file structure
-import createUser from './4-user-promise'; // Adjust the import according to your file structure
+import { uploadPhoto, createUser } from './utils';
 
-export default async function asyncUploadUser() {
+const asyncUploadUser = async () => {
   try {
-    const photoResponse = await uploadPhoto('photo-profile-1.jpg'); // Call uploadPhoto
-    const userResponse = await createUser('Guillaume', 'Salva'); // Call createUser
+    const photo = await uploadPhoto();
+    const user = await createUser();
 
-    return {
-      photo: photoResponse,
-      user: userResponse,
-    };
+    return { photo, user };
   } catch (error) {
-    // If any of the async functions fail, return an empty object
-    return {
-      photo: null,
-      user: null,
-    };
+    return { photo: null, user: null };
   }
-}
+};
+
+export default asyncUploadUser;

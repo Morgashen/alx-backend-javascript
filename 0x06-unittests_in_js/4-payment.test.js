@@ -1,30 +1,36 @@
-const sinon = require('sinon');
 const { expect } = require('chai');
+const sinon = require('sinon');
 const Utils = require('./utils');
 const sendPaymentRequestToApi = require('./4-payment');
 
 describe('sendPaymentRequestToApi', () => {
-  it('should stub Utils.calculateNumber and verify console.log', () => {
+  let calculateNumberStub;
+  let consoleLogSpy;
+
+  beforeEach(() => {
     // Stub Utils.calculateNumber to always return 10
-    const calculateNumberStub = sinon.stub(Utils, 'calculateNumber').returns(10);
+    calculateNumberStub = sinon.stub(Utils, 'calculateNumber').returns(10);
     
     // Spy on console.log
-    const consoleLogSpy = sinon.spy(console, 'log');
-    
-    // Call the function
-    const result = sendPaymentRequestToApi(100, 20);
-    
-    // Verify stub was called with correct arguments
-    sinon.assert.calledWith(calculateNumberStub, 'SUM', 100, 20);
-    
-    // Verify console.log was called with correct message
-    sinon.assert.calledWith(consoleLogSpy, 'The total is: 10');
-    
-    // Verify the return value
-    expect(result).to.equal(10);
-    
-    // Restore stub and spy
+    consoleLogSpy = sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    // Restore the stub and spy
     calculateNumberStub.restore();
     consoleLogSpy.restore();
+  });
+
+  it('should use calculateNumber with correct arguments and log the result', () => {
+    const result = sendPaymentRequestToApi(100, 20);
+
+    // Verify calculateNumber was called with correct arguments
+    expect(calculateNumberStub.calledOnceWithExactly('SUM', 100, 20)).to.be.true;
+
+    // Verify console.log was called with correct message
+    expect(consoleLogSpy.calledOnceWithExactly('The total is: 10')).to.be.true;
+
+    // Verify the returned result
+    expect(result).to.equal(10);
   });
 });

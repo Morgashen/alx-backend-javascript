@@ -21,14 +21,17 @@ describe('sendPaymentRequestToApi', () => {
     consoleLogSpy.restore();
   });
 
-  it('should properly stub calculateNumber and verify console output', () => {
-    // Call the function we want to test
-    sendPaymentRequestToApi(100, 20);
+  it('should stub calculateNumber and verify its behavior', () => {
+    // Call the function and store the result
+    const result = sendPaymentRequestToApi(100, 20);
 
-    // Verify the stub was called with correct arguments (type = SUM, a = 100, b = 20)
+    // Verify the stub was called with correct arguments
     expect(calculateNumberStub.calledOnceWith('SUM', 100, 20)).to.be.true;
 
     // Verify console.log was called with the expected message
     expect(consoleLogSpy.calledOnceWith('The total is: 10')).to.be.true;
+
+    // Verify the function returns the stubbed value
+    expect(result).to.equal(10);
   });
 });

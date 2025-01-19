@@ -16,19 +16,19 @@ describe('sendPaymentRequestToApi', () => {
   });
 
   afterEach(() => {
-    // Restore the stub and spy after each test
+    // Restore both stub and spy to their original state
     calculateNumberStub.restore();
     consoleLogSpy.restore();
   });
 
-  it('should stub calculateNumber and verify its call arguments', () => {
+  it('should properly stub calculateNumber and verify console output', () => {
     // Call the function we want to test
     sendPaymentRequestToApi(100, 20);
 
-    // Verify the stub was called with correct arguments
-    sinon.assert.calledWith(calculateNumberStub, 'SUM', 100, 20);
+    // Verify the stub was called with correct arguments (type = SUM, a = 100, b = 20)
+    expect(calculateNumberStub.calledOnceWith('SUM', 100, 20)).to.be.true;
 
-    // Verify console.log was called with correct message
-    sinon.assert.calledWith(consoleLogSpy, 'The total is: 10');
+    // Verify console.log was called with the expected message
+    expect(consoleLogSpy.calledOnceWith('The total is: 10')).to.be.true;
   });
 });

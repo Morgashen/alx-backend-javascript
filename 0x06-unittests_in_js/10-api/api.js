@@ -1,7 +1,9 @@
 const express = require('express');
+
 const app = express();
 const port = 7865;
 
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -12,7 +14,7 @@ app.get('/cart/:id(\\d+)', (req, res) => {
   res.send(`Payment methods for cart ${req.params.id}`);
 });
 
-app.get('/available_payments', (req, res) => {
+app.get('/available_payments', (_req, res) => {
   res.json({
     payment_methods: {
       credit_cards: true,
@@ -22,7 +24,8 @@ app.get('/available_payments', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  res.send(`Welcome ${req.body.userName}`);
+  const { userName } = req.body;
+  res.send(`Welcome ${userName}`);
 });
 
 const server = app.listen(port, () => {

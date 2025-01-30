@@ -1,21 +1,24 @@
 import express from 'express';
 import router from './routes/index.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// Get the directory name in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-console.log('Current directory:', __dirname);
-console.log('Full path to server.js:', __filename);
-console.log('Arguments:', process.argv);
 
 const app = express();
-const PORT = 1245;
-app.locals.databaseFile = process.argv[2]; // Pass database file path as an argument
+const args = process.argv.slice(2);
+
+// Validate CSV path argument
+if (args.length === 0) {
+  console.error('Usage: node server.js database.csv');
+  process.exit(1);
+}
+
+// Set database path as a configuration
+app.set('databasePath', args[0]);
+
+// Use router
 app.use('/', router);
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+// Start server
+app.listen(1245, () => {
+  console.log(`Server running on port 1245, using database: ${args[0]}`);
 });
+
 export default app;
